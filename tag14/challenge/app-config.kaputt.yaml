@@ -1,0 +1,36 @@
+# app-config.kaputt.yaml – Challenge Tag 14: Diese Datei enthält VIER Fehler.
+# Nicht ins Portal kopieren! Prüfen mit:
+#   yarn backstage-cli config:check --config app-config.yaml \
+#     --config ~/backstage-lab/code/tag14/challenge/app-config.kaputt.yaml
+app:
+  title: Kranich Entwicklerportal
+organization:
+  name: Kranich Logistik
+backend:
+  auth:
+    externalAccess:
+      - type: static
+        options:
+          token: ${BACKSTAGE_TOKEN}
+          subject: lab-cli
+  database:
+    client: better-sqlite3
+    connection:
+      directory: ${LAB}/data
+integrations:
+  gitea:
+    - host: localhost:3300
+      baseUrl: http://localhost:3300
+      username: backstage-bot
+      password: ${FORGEJO_TOKN}
+catalog:
+  rules:
+    - allow: [Component, System, API, Resource, Location, Domain]
+  locations:
+    - type: url
+      target: http://127.0.0.1:3300/kranich/katalog/src/branch/main/locations.yaml
+    - type: url
+      target: http://127.0.0.1:3300/kranich/org/src/branch/main/org.yaml
+       rules:
+        - allow: [User, Group]
+  processingInterval: { second: 20 }

@@ -1,0 +1,55 @@
+app:
+  title: Kranich Entwicklerportal
+organization:
+  name: Kranich Logistik
+backend:
+  auth:
+    externalAccess:
+      - type: static
+        options:
+          token: ${BACKSTAGE_TOKEN}
+          subject: lab-cli
+  database:
+    client: better-sqlite3
+    connection:
+      directory: ${LAB}/data
+integrations:
+  gitea:
+    - host: 127.0.0.1:3300
+      baseUrl: http://127.0.0.1:3300
+      username: backstage-bot
+      password: ${FORGEJO_TOKEN}
+catalog:
+  rules:
+    - allow: [Component, System, API, Resource, Location, Domain]
+  locations:
+    # Beispieldaten aus create-app (Arrays werden ersetzt, nicht ergänzt!)
+    - type: file
+      target: ../../examples/entities.yaml
+    - type: file
+      target: ../../examples/template/template.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ../../examples/org.yaml
+      rules:
+        - allow: [User, Group]
+    # Sammel-Location im Repo kranich/katalog
+    - type: url
+      target: http://127.0.0.1:3300/kranich/katalog/src/branch/main/locations.yaml
+    # lokale Datei zum Ausprobieren (Tag 3, Drill 3)
+    - type: file
+      target: ${LAB}/tag03/entwurf.yaml
+      rules:
+        - allow: [Group]
+  providers:
+    gitea:
+      kranich:
+        host: 127.0.0.1:3300
+        organization: kranich
+        branch: main
+        catalogPath: catalog-info.yaml
+        schedule:
+          frequency: { minutes: 1 }
+          timeout: { minutes: 1 }
+  processingInterval: { seconds: 20 }

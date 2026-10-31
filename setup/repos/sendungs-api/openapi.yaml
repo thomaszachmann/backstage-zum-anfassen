@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: Sendungs-API
+  version: 1.4.0
+  description: Status einer Sendung abfragen.
+paths:
+  /sendungen/{id}:
+    get:
+      summary: Status einer Sendung
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, example: KR-1001 }
+      responses:
+        '200':
+          description: Sendung gefunden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: zugestellt }
+        '404':
+          description: Unbekannte Sendungsnummer

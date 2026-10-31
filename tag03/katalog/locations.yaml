@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: kranich-extern
+  description: Externe Dienste ohne eigenes Repo
+spec:
+  targets:
+    - ./extern/paketdienst.yaml
+    - ./extern/kartendienst.yaml

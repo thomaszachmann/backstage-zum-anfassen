@@ -1,0 +1,31 @@
+# app-config.production.yaml – Tag 13: Produktionsbetrieb, ein Prozess auf :7007
+# Keine Secrets in dieser Datei: alles Geheime kommt per ${ENV} herein.
+app:
+  # Frontend und Backend unter derselben Adresse (app-backend liefert die App aus)
+  baseUrl: http://localhost:7007
+backend:
+  baseUrl: http://localhost:7007
+  listen: ':7007'
+  database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+auth:
+  providers:
+    guest:
+      # Nur fürs Lab! Ohne NODE_ENV=development lehnt der Guest-Provider sonst ab.
+      dangerouslyAllowOutsideDevelopment: true
+catalog:
+  # Ersetzt die Liste aus app-config.local.yaml: keine file-Locations in Produktion
+  locations:
+    - type: url
+      target: http://127.0.0.1:3300/kranich/katalog/src/branch/main/locations.yaml
+    - type: url
+      target: http://127.0.0.1:3300/kranich/org/src/branch/main/org.yaml
+      rules:
+        - allow: [User, Group]
+    - type: url
+      target: http://127.0.0.1:3300/kranich/templates/src/branch/main/templates.yaml

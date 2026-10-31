@@ -1,0 +1,34 @@
+# backstage-rbac.yaml – Leserechte (get/list/watch) für den ServiceAccount backstage
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: backstage-read-only
+rules:
+  - apiGroups: [""]
+    resources: [pods, pods/log, services, configmaps, limitranges, resourcequotas]
+    verbs: [get, list, watch]
+  - apiGroups: [apps]
+    resources: [deployments, replicasets, statefulsets, daemonsets]
+    verbs: [get, list, watch]
+  - apiGroups: [autoscaling]
+    resources: [horizontalpodautoscalers]
+    verbs: [get, list, watch]
+  - apiGroups: [networking.k8s.io]
+    resources: [ingresses]
+    verbs: [get, list, watch]
+  - apiGroups: [batch]
+    resources: [jobs, cronjobs]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: backstage-read-only
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: backstage-read-only
+subjects:
+  - kind: ServiceAccount
+    name: backstage
+    namespace: backstage

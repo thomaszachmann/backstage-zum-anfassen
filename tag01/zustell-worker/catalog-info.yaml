@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: zustell-worker
+  description: Berechnet Zustellprognosen im Hintergrund
+  tags: [nodejs, worker]
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-sendung
+  consumesApis: [sendungs-api]

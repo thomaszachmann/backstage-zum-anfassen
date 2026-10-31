@@ -1,0 +1,105 @@
+# org.yaml – Organisation der Kranich Logistik GmbH (Tag 4)
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: kranich
+  title: Kranich Logistik GmbH
+spec:
+  type: organization
+  profile:
+    displayName: Kranich Logistik GmbH
+    email: info@kranich.example
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: it
+  title: IT
+  description: Softwareentwicklung und Betrieb
+spec:
+  type: department
+  parent: kranich
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: team-sendung
+  title: Team Sendung
+  description: Sendungsverfolgung – API, Worker, Datenbank
+spec:
+  type: team
+  parent: it
+  profile:
+    displayName: Team Sendung
+    email: team-sendung@kranich.example
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: team-web
+  title: Team Web
+  description: Weboberflächen für Kunden
+spec:
+  type: team
+  parent: it
+  profile:
+    displayName: Team Web
+    email: team-web@kranich.example
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: plattform
+  title: Plattform
+  description: Entwicklerportal, CI/CD, Kubernetes
+spec:
+  type: team
+  parent: it
+  profile:
+    displayName: Team Plattform
+    email: plattform@kranich.example
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: anna.berger
+spec:
+  profile:
+    displayName: Anna Berger
+    email: anna.berger@kranich.example
+  memberOf: [team-sendung]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: ben.kraus
+spec:
+  profile:
+    displayName: Ben Kraus
+    email: ben.kraus@kranich.example
+  memberOf: [team-sendung]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: chris.dietz
+spec:
+  profile:
+    displayName: Chris Dietz
+    email: chris.dietz@kranich.example
+  memberOf: [team-web]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: thomas.zachmann
+spec:
+  profile:
+    displayName: Thomas Zachmann
+    email: thomas.zachmann@kranich.example
+  memberOf: [plattform, team-web]

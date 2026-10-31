@@ -1,0 +1,6 @@
+{
+  "name": "tracking-web",
+  "version": "2.1.0",
+  "private": true,
+  "description": "Web-Oberfläche zur Sendungsverfolgung"
+}

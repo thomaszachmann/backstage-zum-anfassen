@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: tracking-web
+  title: Tracking-Web
+  description: Web-Oberfläche zur Sendungsverfolgung
+  tags: [web]
+spec:
+  type: website
+  lifecycle: production
+  owner: team-web
+  system: sendungsverfolgung
+  consumesApis: [sendungs-api]
+  dependsOn: [component:sendungs-api]

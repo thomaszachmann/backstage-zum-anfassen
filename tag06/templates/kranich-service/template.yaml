@@ -1,0 +1,147 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: kranich-service
+  title: Kranich-Service
+  description: Node.js-Service mit System, Umgebungen und optionaler CI
+  tags: [nodejs, kranich]
+spec:
+  owner: plattform
+  type: service
+  parameters:
+    - title: Service
+      required: [name, description, system, owner]
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Name der Component (z. B. lager-scanner)
+          ui:field: EntityNamePicker
+          ui:autofocus: true
+        description:
+          title: Beschreibung
+          type: string
+        system:
+          title: System
+          type: string
+          description: Zu welchem System gehört der Service?
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind: System
+            defaultKind: System
+            allowArbitraryValues: false
+        owner:
+          title: Owner
+          type: string
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: Group
+              spec.type: team
+    - title: Optionen
+      properties:
+        umgebungen:
+          title: Umgebungen
+          description: Je Umgebung entsteht eine Datei im Ordner config
+          type: array
+          items:
+            type: string
+            enum: [dev, test, prod]
+          uniqueItems: true
+          default: [dev]
+          ui:widget: checkboxes
+        ci:
+          title: Forgejo-Actions-Workflow anlegen
+          type: boolean
+          default: false
+        ticketToken:
+          title: Token für das Ticketsystem
+          type: string
+          ui:field: Secret
+    - title: Repository
+      required: [repoUrl]
+      properties:
+        repoUrl:
+          title: Ablageort
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts: ['127.0.0.1:3300']
+            allowedOwners: [kranich]
+  steps:
+    - id: fetch
+      name: Skeleton füllen
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          owner: ${{ parameters.owner }}
+          system: ${{ parameters.system }}
+    - id: config
+      name: Konfiguration je Umgebung
+      each: ${{ parameters.umgebungen }}
+      action: fetch:template:file
+      input:
+        url: ./vorlagen/config.json
+        targetPath: config/${{ each.value }}.json
+        values:
+          name: ${{ parameters.name }}
+          umgebung: ${{ each.value }}
+    - id: ci
+      name: CI-Workflow kopieren
+      if: ${{ parameters.ci }}
+      action: fetch:plain
+      input:
+        url: ./ci
+        targetPath: .forgejo/workflows
+    - id: log
+      name: Eingaben prüfen
+      action: debug:log
+      input:
+        message: >-
+          Repo ${{ parameters.repoUrl | parseRepoUrl | pick('repo') }}
+          für Team ${{ parameters.owner | parseEntityRef | pick('name') }}
+        listWorkspace: true
+    - id: ticket
+      name: Onboarding-Ticket anlegen
+      action: kranich:ticket:create
+      input:
+        title: Onboarding ${{ parameters.name }}
+        team: ${{ parameters.owner }}
+        token: ${{ secrets.ticketToken }}
+        delaySeconds: 10
+    - id: publish
+      name: Repo in Forgejo anlegen
+      action: publish:gitea
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        description: ${{ parameters.description }}
+        defaultBranch: main
+        gitCommitMessage: Erzeugt aus Template kranich-service
+        gitAuthorName: Backstage Scaffolder
+        gitAuthorEmail: backstage-bot@lab.local
+    - id: register
+      name: Im Katalog registrieren
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: catalog-info.yaml
+  output:
+    links:
+      - title: Repository in Forgejo
+        url: ${{ steps.publish.output.repoContentsUrl }}
+      - title: Im Katalog öffnen
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
+    text:
+      - title: Nächste Schritte
+        content: |
+          **${{ parameters.name }}** ist angelegt.
+
+          - Repo: `${{ parameters.repoUrl | projectSlug }}`
+          - Umgebungen: ${{ parameters.umgebungen | join(', ') }}
+          - CI-Workflow: ${{ 'ja' if parameters.ci else 'nein' }}
+          - Ticket: ${{ steps.ticket.output.ticketId }}

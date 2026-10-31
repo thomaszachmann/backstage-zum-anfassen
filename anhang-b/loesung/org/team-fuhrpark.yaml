@@ -1,0 +1,35 @@
+# Anhang B, Aufgabe 1: an kranich/org/org.yaml anhängen
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: team-fuhrpark
+  title: Team Fuhrpark
+  description: Flottenmanagement – Fahrzeuge, Touren, Fahrtenbuch
+spec:
+  type: team
+  parent: it
+  profile:
+    displayName: Team Fuhrpark
+    email: team-fuhrpark@kranich.example
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: dana.engel
+spec:
+  profile:
+    displayName: Dana Engel
+    email: dana.engel@kranich.example
+  memberOf: [team-fuhrpark]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: emil.fischer
+spec:
+  profile:
+    displayName: Emil Fischer
+    email: emil.fischer@kranich.example
+  memberOf: [team-fuhrpark]

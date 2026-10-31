@@ -1,0 +1,29 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sendungs-api
+  title: Sendungs-API
+  description: REST-API für den Sendungsstatus
+  tags: [nodejs, rest]
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: service
+  lifecycle: production
+  owner: team-sendung
+  system: sendungsverfolgung
+  providesApis: [sendungs-api]
+  dependsOn: [resource:sendungs-db]
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: sendungs-api
+  description: Öffentliche Schnittstelle der Sendungsverfolgung
+spec:
+  type: openapi
+  lifecycle: production
+  owner: team-sendung
+  system: sendungsverfolgung
+  definition:
+    $text: ./openapi.yaml

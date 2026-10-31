@@ -1,0 +1,29 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: zustell-app
+  description: App für Zusteller – Scan an der Haustür
+  tags: [mobile]
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-sendung
+  system: sendungsverfolgung
+  dependsOn:
+    - component:sendungs-api
+  consumesApis: [scan-annahme]
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: scan-annahme
+  title: Scan-Annahme
+  description: gRPC-Dienst, über den die Zustell-App Haustür-Scans meldet
+  tags: [grpc, mobile]
+spec:
+  type: grpc
+  lifecycle: experimental
+  owner: team-sendung
+  system: sendungsverfolgung
+  definition:
+    $text: ./proto/scan.proto

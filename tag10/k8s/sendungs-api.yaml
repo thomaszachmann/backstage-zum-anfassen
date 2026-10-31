@@ -1,0 +1,47 @@
+# sendungs-api.yaml – Demo-Deployment für den Kubernetes-Tab (Lab)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kranich
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sendungs-api
+  namespace: kranich
+  labels:
+    app: sendungs-api
+    backstage.io/kubernetes-id: sendungs-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sendungs-api
+  template:
+    metadata:
+      labels:
+        app: sendungs-api
+        backstage.io/kubernetes-id: sendungs-api
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.24-alpine
+          ports:
+            - containerPort: 80
+          resources:
+            requests: { cpu: 10m, memory: 16Mi }
+            limits: { cpu: 100m, memory: 64Mi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sendungs-api
+  namespace: kranich
+  labels:
+    backstage.io/kubernetes-id: sendungs-api
+spec:
+  selector:
+    app: sendungs-api
+  ports:
+    - port: 80
+      targetPort: 80

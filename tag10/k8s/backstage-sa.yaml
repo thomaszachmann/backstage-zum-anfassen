@@ -1,0 +1,20 @@
+# backstage-sa.yaml – technischer Zugang für Backstage (noch ohne Rechte)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: backstage
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backstage
+  namespace: backstage
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backstage-token
+  namespace: backstage
+  annotations:
+    kubernetes.io/service-account.name: backstage
+type: kubernetes.io/service-account-token

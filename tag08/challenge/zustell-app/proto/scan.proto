@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package kranich.zustellung.v1;
+
+// Die Zustell-App meldet Scans an der Haustür.
+service ScanAnnahme {
+  rpc MeldeScan (Scan) returns (Quittung);
+}
+
+message Scan {
+  string sendungsnummer = 1;
+  string status = 2;      // z. B. "zugestellt", "nicht angetroffen"
+  string zeitpunkt = 3;   // ISO 8601
+}
+
+message Quittung {
+  bool angenommen = 1;
+}

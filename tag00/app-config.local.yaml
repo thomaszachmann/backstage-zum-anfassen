@@ -1,0 +1,21 @@
+app:
+  title: Kranich Entwicklerportal
+organization:
+  name: Kranich Logistik
+backend:
+  auth:
+    externalAccess:
+      - type: static
+        options:
+          token: ${BACKSTAGE_TOKEN}
+          subject: lab-cli
+  database:
+    client: better-sqlite3
+    connection:
+      directory: ${LAB}/data
+integrations:
+  gitea:
+    - host: 127.0.0.1:3300
+      baseUrl: http://127.0.0.1:3300
+      username: backstage-bot
+      password: ${FORGEJO_TOKEN}

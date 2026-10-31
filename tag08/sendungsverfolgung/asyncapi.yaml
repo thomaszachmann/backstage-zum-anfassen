@@ -1,0 +1,26 @@
+asyncapi: 3.0.0
+info:
+  title: Sendungs-Ereignisse
+  version: 1.0.0
+  description: Scanner-Ereignisse für Live-Updates der Sendungsverfolgung.
+channels:
+  sendungGescannt:
+    address: sendungen.gescannt
+    messages:
+      gescannt:
+        $ref: '#/components/messages/Gescannt'
+operations:
+  empfangeScan:
+    action: receive
+    channel:
+      $ref: '#/channels/sendungGescannt'
+    summary: Eine Sendung wurde an einem Standort gescannt.
+components:
+  messages:
+    Gescannt:
+      payload:
+        type: object
+        properties:
+          sendungsnummer: { type: string, example: KR-1001 }
+          standort: { type: string, example: Hub Leipzig }
+          zeitpunkt: { type: string, format: date-time }

@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: team-sendung
+  description: Entwurf – zieht an Tag 4 nach kranich/org um
+spec:
+  type: team
+  children: []

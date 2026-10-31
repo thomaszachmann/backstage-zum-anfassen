@@ -1,0 +1,7 @@
+# Tag 7: TechDocs ohne Docker – mkdocs läuft lokal (PATH aus env.sh)
+techdocs:
+  builder: local
+  generator:
+    runIn: local
+  publisher:
+    type: local

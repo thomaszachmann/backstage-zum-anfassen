@@ -1,0 +1,95 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: fuhrpark-service
+  title: Fuhrpark-Service
+  description: Node.js-Service im Flottenmanagement, mit System und optionalen TechDocs
+  tags: [nodejs, fuhrpark]
+spec:
+  owner: team-fuhrpark
+  type: service
+  parameters:
+    - title: Service
+      required: [name, description, system]
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Name der Component (z. B. fahrzeug-ortung)
+          ui:field: EntityNamePicker
+          ui:autofocus: true
+        description:
+          title: Beschreibung
+          type: string
+        system:
+          title: System
+          type: string
+          description: Nur Systems der Domain Fuhrpark
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind: System
+              spec.domain: fuhrpark
+            defaultKind: System
+            allowArbitraryValues: false
+        techdocs:
+          title: mit TechDocs
+          description: Legt mkdocs.yml und zwei Doku-Seiten an
+          type: boolean
+          default: true
+    - title: Repository
+      required: [repoUrl]
+      properties:
+        repoUrl:
+          title: Ablageort
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts: ['127.0.0.1:3300']
+            allowedOwners: [kranich]
+  steps:
+    - id: fetch
+      name: Skeleton füllen
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          owner: group:default/team-fuhrpark
+          system: ${{ parameters.system }}
+          techdocs: ${{ parameters.techdocs }}
+    - id: techdocs
+      name: TechDocs-Gerüst
+      if: ${{ parameters.techdocs }}
+      action: fetch:template
+      input:
+        url: ./techdocs
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          system: ${{ parameters.system | parseEntityRef | pick('name') }}
+    - id: publish
+      name: Repo in Forgejo anlegen
+      action: publish:gitea
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        description: ${{ parameters.description }}
+        defaultBranch: main
+        repoVisibility: public
+        gitCommitMessage: Erzeugt aus Template fuhrpark-service
+        gitAuthorName: Backstage Scaffolder
+        gitAuthorEmail: backstage-bot@lab.local
+    - id: register
+      name: Im Katalog registrieren
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: catalog-info.yaml
+  output:
+    links:
+      - title: Repository in Forgejo
+        url: ${{ steps.publish.output.repoContentsUrl }}
+      - title: Im Katalog öffnen
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}

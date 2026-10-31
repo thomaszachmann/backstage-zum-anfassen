@@ -1,0 +1,15 @@
+# Tag 12: Login über Forgejo (OIDC) – an app-config.local.yaml anhängen
+auth:
+  environment: development
+  session:
+    secret: ${AUTH_SESSION_SECRET}
+  providers:
+    oidc:
+      development:
+        metadataUrl: http://127.0.0.1:3300/.well-known/openid-configuration
+        clientId: ${OIDC_CLIENT_ID}
+        clientSecret: ${OIDC_CLIENT_SECRET}
+        signIn:
+          resolvers:
+            - resolver: emailMatchingUserEntityProfileEmail
+            - resolver: emailLocalPartMatchingUserEntityName

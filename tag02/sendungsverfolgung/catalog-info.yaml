@@ -1,0 +1,54 @@
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: logistik
+  title: Logistik
+  description: Alles rund um Transport und Zustellung
+spec:
+  owner: team-sendung
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: sendungsverfolgung
+  title: Sendungsverfolgung
+  description: Kunden sehen, wo ihr Paket gerade ist
+spec:
+  owner: team-sendung
+  domain: logistik
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: sendungs-db
+  description: PostgreSQL mit allen Sendungsereignissen
+spec:
+  type: database
+  owner: team-sendung
+  system: sendungsverfolgung
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sendungs-worker
+  title: Sendungs-Worker
+  description: Liest Scanner-Ereignisse und schreibt sie in die Datenbank
+  tags: [nodejs, queue]
+  labels:
+    kranich.de/kritikalitaet: hoch
+  annotations:
+    backstage.io/kubernetes-id: sendungs-worker
+  links:
+    - url: https://grafana.kranich.example/d/sendungs-worker
+      title: Dashboard
+      icon: dashboard
+    - url: https://wiki.kranich.example/runbooks/sendungs-worker
+      title: Runbook
+      icon: docs
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-sendung
+  system: sendungsverfolgung
+  dependsOn:
+    - resource:sendungs-db

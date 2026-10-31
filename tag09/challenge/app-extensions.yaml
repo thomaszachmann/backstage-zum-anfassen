@@ -1,0 +1,84 @@
+# Tag 9, Challenge: wie app-extensions.yaml plus Besuchsverlauf
+# Startseite auf /, der Katalog liegt wieder auf seinem Standardpfad /catalog
+- page:home:
+    config:
+      path: /
+      defaultConfig:
+        - component: HomePageSearchBar
+          column: 0
+          row: 0
+          width: 12
+          height: 2
+          deletable: false
+        - component: GettingStarted
+          column: 0
+          row: 2
+          width: 6
+          height: 5
+        - component: HomePageToolkit
+          column: 6
+          row: 2
+          width: 6
+          height: 3
+        - component: HomePageWorldClock
+          column: 6
+          row: 5
+          width: 6
+          height: 2
+        - component: HomePageStarredEntities
+          column: 0
+          row: 7
+          width: 12
+          height: 3
+        - component: HomePageRecentlyVisited
+          column: 0
+          row: 10
+          width: 6
+          height: 4
+        - component: HomePageMostVisited
+          column: 6
+          row: 10
+          width: 6
+          height: 4
+# Besuchsverlauf: API und Listener sind ab Werk abgeschaltet
+- api:home/visits: true
+- app-root-element:home/visit-listener: true
+- home-page-widget:home/toolkit:
+    config:
+      tools:
+        - url: http://127.0.0.1:3300/kranich
+          label: Forgejo
+          icon: externalLink
+        - url: /create
+          label: Neues Projekt
+          icon: scaffolder
+        - url: /docs
+          label: TechDocs
+          icon: techdocs
+        - url: https://backstage.io/docs
+          label: Backstage-Doku
+          icon: docs
+- home-page-widget:home/world-clock:
+    config:
+      clockConfigs:
+        - label: Berlin
+          timeZone: Europe/Berlin
+        - label: UTC
+          timeZone: UTC
+# Witze-Widget ruft eine externe API auf – im Firmennetz unerwünscht
+- home-page-widget:home/random-joke: false
+# Navigation: Seitentitel umbenennen
+- page:app-visualizer:
+    config:
+      title: App-Struktur
+# Entity-Seite: About zuerst, darunter der Beziehungsgraph in der rechten Spalte
+- entity-card:catalog/about: true
+- entity-card:catalog-graph/relations:
+    config:
+      type: info
+      title: Beziehungen
+      height: 280
+# Gruppen-Seiten: indirekte Ownership von Anfang an
+- entity-card:org/ownership:
+    config:
+      initialRelationAggregation: aggregated

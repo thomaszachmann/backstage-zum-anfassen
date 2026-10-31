@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Komponente
+metadata:
+  name: sendungs-archiv
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-sendung

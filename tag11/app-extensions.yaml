@@ -1,0 +1,4 @@
+    # Tag 11: Bereitschaftskarte in die rechte Spalte
+    - entity-card:bereitschaft/heute:
+        config:
+          type: info

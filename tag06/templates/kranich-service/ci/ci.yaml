@@ -1,0 +1,9 @@
+# Forgejo-Actions-Workflow – wird von fetch:plain unverändert kopiert
+on: [push]
+jobs:
+  test:
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v4
+      - run: node --check src/index.js
+      - run: echo "Branch ${{ forgejo.ref_name }} geprüft"

@@ -1,0 +1,6 @@
+site_name: ${{ values.name }}
+nav:
+  - Start: index.md
+  - Betrieb: betrieb.md
+plugins:
+  - techdocs-core

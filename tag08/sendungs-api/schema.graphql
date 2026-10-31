@@ -1,0 +1,20 @@
+"Eine Sendung der Kranich Logistik"
+type Sendung {
+  "Sendungsnummer, z. B. KR-1001"
+  id: ID!
+  status: String!
+  ereignisse: [Ereignis!]!
+}
+
+"Ein Scan an einem Standort"
+type Ereignis {
+  standort: String!
+  zeitpunkt: String!
+}
+
+type Query {
+  "Eine Sendung per Nummer"
+  sendung(id: ID!): Sendung
+  "Alle Sendungen eines Kunden"
+  sendungenVonKunde(kundennummer: ID!): [Sendung!]!
+}

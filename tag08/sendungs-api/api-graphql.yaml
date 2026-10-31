@@ -1,0 +1,15 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: sendungs-graphql
+  title: Sendungs-GraphQL
+  description: GraphQL-Schnittstelle für Sendungen und ihre Scan-Ereignisse
+  tags: [graphql]
+spec:
+  type: graphql
+  lifecycle: experimental
+  owner: team-sendung
+  system: sendungsverfolgung
+  definition:
+    $text: ./schema.graphql

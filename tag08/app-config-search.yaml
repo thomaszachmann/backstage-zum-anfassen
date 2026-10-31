@@ -1,0 +1,11 @@
+# Tag 8: an ~/backstage-lab/portal/app-config.local.yaml anhängen (Top-Level-Key search)
+search:
+  collators:
+    catalog:
+      schedule:
+        frequency: { minutes: 1 }
+        timeout: { minutes: 5 }
+    techdocs:
+      schedule:
+        frequency: { minutes: 1 }
+        timeout: { minutes: 5 }

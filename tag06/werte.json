@@ -1,0 +1,9 @@
+{
+  "name": "lager-scanner",
+  "description": "Scanner-Ereignisse aus den Depots",
+  "system": "system:default/sendungsverfolgung",
+  "owner": "group:default/team-sendung",
+  "umgebungen": ["dev", "prod"],
+  "ci": true,
+  "repoUrl": "127.0.0.1:3300?owner=kranich&repo=lager-scanner"
+}

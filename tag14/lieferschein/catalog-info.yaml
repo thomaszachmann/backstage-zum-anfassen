@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: lieferschein-service
+  description: Erzeugt Lieferscheine als PDF
+  tags: [nodejs, pdf]
+spec:
+  type: service
+  lifecycle: experimental
+  system: sendungsverfolgung

@@ -1,0 +1,6 @@
+site_name: Sendungs-API
+nav:
+  - Überblick: index.md
+  - Betrieb: betrieb.md
+plugins:
+  - techdocs-core

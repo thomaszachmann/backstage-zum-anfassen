@@ -1,0 +1,5 @@
+site_name: Sendungs-API
+nav:
+  - Überblick: index.md
+plugins:
+  - techdocs-core

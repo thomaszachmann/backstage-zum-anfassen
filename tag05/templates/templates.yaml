@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: kranich-templates
+  description: Alle Software Templates der Kranich Logistik
+spec:
+  targets:
+    - ./node-service/template.yaml

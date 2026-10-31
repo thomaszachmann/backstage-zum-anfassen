@@ -1,0 +1,15 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: team-kunde
+  title: Team Kunde
+  description: Kundenportal und Sendungsverfolgung im Web
+spec:
+  type: team
+  parent: it
+  profile:
+    displayName: Team Kunde
+    email: team-kunde@kranich.example
+  children: []
+  members: [chris.dietz]

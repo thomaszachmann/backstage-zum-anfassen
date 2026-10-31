@@ -1,0 +1,10 @@
+{
+  "templateRef": "template:default/fuhrpark-service",
+  "values": {
+    "name": "fahrzeug-ortung",
+    "description": "GPS-Positionen der Fahrzeuge für die Disposition",
+    "system": "system:default/flottenmanagement",
+    "techdocs": true,
+    "repoUrl": "127.0.0.1:3300?owner=kranich&repo=fahrzeug-ortung"
+  }
+}

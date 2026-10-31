@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: Fahrzeug-API
+  version: 0.1.0
+  description: Stammdaten und Kilometerstand eines Fahrzeugs abfragen.
+paths:
+  /fahrzeuge/{kennzeichen}:
+    get:
+      summary: Ein Fahrzeug
+      parameters:
+        - name: kennzeichen
+          in: path
+          required: true
+          schema: { type: string, example: HH-KR-1234 }
+      responses:
+        '200':
+          description: Fahrzeug gefunden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  typ: { type: string, example: Sprinter }
+                  kilometer: { type: integer, example: 48210 }
+        '404':
+          description: Unbekanntes Kennzeichen

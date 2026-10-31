@@ -1,0 +1,5 @@
+site_name: Tracking-Web
+nav:
+  - Überblick: index.md
+plugins:
+  - techdocs-core

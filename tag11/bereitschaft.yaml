@@ -1,0 +1,5 @@
+# Tag 11: Bereitschaftsplan für das Plugin bereitschaft
+bereitschaft:
+  teams:
+    team-sendung: [anna.berger, ben.kraus]
+    team-web: [chris.dietz, thomas.zachmann]

@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: paketdienst
+  description: Externer Paketdienst (SaaS), liefert Zustellereignisse
+  links:
+    - url: https://status.paketdienst.example
+      title: Statusseite
+spec:
+  type: external-service
+  owner: team-sendung
+  system: sendungsverfolgung

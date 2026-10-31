@@ -1,0 +1,6 @@
+{
+  "service": "${{ values.name }}",
+  "umgebung": "${{ values.umgebung }}",
+  "port": {% if values.umgebung == 'prod' %}80{% else %}8080{% endif %},
+  "logLevel": "${{ 'warn' if values.umgebung == 'prod' else 'debug' }}"
+}

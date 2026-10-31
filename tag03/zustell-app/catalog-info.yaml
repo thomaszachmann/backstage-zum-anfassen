@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: zustell-app
+  description: App für Zusteller – Scan an der Haustür
+  tags: [mobile]
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-sendung
+  system: sendungsverfolgung
+  dependsOn:
+    - component:sendungs-api
